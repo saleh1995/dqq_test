@@ -19,6 +19,7 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'email_verified_at' => $this->email_verified_at,
+            'warehouse_id' => $this->warehouse_id,
             'warehouse' => $this->whenLoaded('warehouse', function () {
                 return new WarehouseResource($this->warehouse);
             }),
