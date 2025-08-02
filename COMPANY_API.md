@@ -188,6 +188,14 @@ This document describes the Company CRUD API endpoints implemented using Laravel
 }
 ```
 
+## Authentication
+
+All company endpoints require authentication. Include the Bearer token in the Authorization header:
+
+```
+Authorization: Bearer {your_token_here}
+```
+
 ## Implementation Details
 
 ### Architecture

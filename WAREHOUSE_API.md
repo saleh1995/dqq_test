@@ -185,6 +185,14 @@ This document describes the Warehouse CRUD API endpoints implemented using Larav
 }
 ```
 
+## Authentication
+
+All warehouse endpoints require authentication. Include the Bearer token in the Authorization header:
+
+```
+Authorization: Bearer {your_token_here}
+```
+
 ## Implementation Details
 
 ### Architecture
@@ -194,7 +202,7 @@ This document describes the Warehouse CRUD API endpoints implemented using Larav
 -   **Model**: `App\Models\Warehouse`
 -   **Resource**: `App\Http\Resources\WarehouseResource`
 -   **Request Validation**: `App\Http\Requests\WarehouseRequest`
--   **Response Trait**: `App\Http\Traits\ApiResponseTrait`
+-   **Response Trait**: `App\Traits\ApiResponseTrait`
 
 ### Features
 
