@@ -1,61 +1,121 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Inventory & Stock Transfer API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This project is a Laravel-based RESTful API for managing companies, warehouses, products, users, and stock transfers between warehouses. It provides secure authentication, CRUD operations, and a robust workflow for stock transfer management.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Table of Contents
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+-   [Features](#features)
+-   [API Documentation](#api-documentation)
+-   [Getting Started](#getting-started)
+-   [Usage](#usage)
+-   [Project Structure](#project-structure)
+-   [Contributing](#contributing)
+-   [License](#license)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## Features
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+-   User registration, login, and token-based authentication (Laravel Sanctum)
+-   Company management (CRUD)
+-   Warehouse management (CRUD)
+-   Product management (CRUD)
+-   Stock transfer management between warehouses with status workflow
+-   Role-based access for stock transfer actions
+-   Consistent API responses and error handling
+-   Database seeding for demo users, companies, warehouses, and products
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## API Documentation
 
-## Laravel Sponsors
+-   [Authentication API](AUTH_API.md)
+-   [Company API](COMPANY_API.md)
+-   [Warehouse API](WAREHOUSE_API.md)
+-   [Product API](PRODUCT_API.md)
+-   [Stock Transfer API](STOCK_TRANSFER_API.md)
+-   [Postman Collection](https://documenter.getpostman.com/view/21836217/2sB3BAMYG5)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Each API doc contains detailed endpoint descriptions, request/response examples, and error handling.
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## Getting Started
+
+### Prerequisites
+
+-   PHP >= 8.2
+-   Composer
+-   MySQL or compatible database
+
+### Installation
+
+1. Clone the repository:
+    ```bash
+    git clone <your-repo-url>
+    cd <project-directory>
+    ```
+2. Install dependencies:
+    ```bash
+    composer install
+    ```
+3. Copy the example environment file and set your configuration:
+    ```bash
+    cp .env.example .env
+    # Edit .env as needed
+    ```
+4. Generate application key:
+    ```bash
+    php artisan key:generate
+    ```
+5. Run migrations and seeders:
+    ```bash
+    php artisan migrate
+    php artisan db:seed
+    ```
+6. (Optional) Install Node dependencies and build assets:
+    ```bash
+    npm install && npm run dev
+    ```
+7. Start the development server:
+    ```bash
+    php artisan serve
+    ```
+
+---
+
+## Usage
+
+-   Register or login to obtain a Bearer token.
+-   Use the token in the `Authorization` header for all protected endpoints:
+    ```
+    Authorization: Bearer {your_token}
+    ```
+-   Refer to the API documentation files for endpoint details and example requests.
+
+---
+
+## Project Structure
+
+-   `app/Models/` - Eloquent models
+-   `app/Http/Controllers/Api/` - API controllers
+-   `app/Services/` - Business logic services
+-   `app/Http/Requests/` - Request validation
+-   `app/Http/Resources/` - API resource transformers
+-   `app/Traits/` - Shared traits (e.g., ApiResponseTrait)
+-   `database/seeders/` - Database seeders
+-   `routes/api.php` - API route definitions
+
+---
 
 ## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
 
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
