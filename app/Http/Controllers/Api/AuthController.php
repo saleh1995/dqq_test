@@ -7,6 +7,7 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use App\Services\AuthService;
 use App\Traits\ApiResponseTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,6 +18,13 @@ class AuthController extends Controller
 {
     use ApiResponseTrait;
 
+    protected $authService;
+
+    public function __construct(AuthService $authService)
+    {
+        $this->authService = $authService;
+    }
+
     /**
      * User login
      */
@@ -24,15 +32,13 @@ class AuthController extends Controller
     {
         try {
             $credentials = $request->validated();
+            $result = $this->authService->login($credentials);
 
-            if (Auth::attempt($credentials)) {
-                $user = Auth::user();
-                $token = $user->createToken('auth-token')->plainTextToken;
-
+            if ($result) {
                 return $this->apiResponse(
                     [
-                        'user' => new UserResource($user),
-                        'token' => $token,
+                        'user' => new UserResource($result['user']),
+                        'token' => $result['token'],
                         'token_type' => 'Bearer'
                     ],
                     'Login successful',
@@ -58,20 +64,12 @@ class AuthController extends Controller
     {
         try {
             $validatedData = $request->validated();
-
-            $user = User::create([
-                'name' => $validatedData['name'],
-                'email' => $validatedData['email'],
-                'password' => Hash::make($validatedData['password']),
-                'warehouse_id' => $validatedData['warehouse_id'],
-            ]);
-
-            $token = $user->createToken('auth-token')->plainTextToken;
+            $result = $this->authService->register($validatedData);
 
             return $this->apiResponse(
                 [
-                    'user' => new UserResource($user),
-                    'token' => $token,
+                    'user' => new UserResource($result['user']),
+                    'token' => $result['token'],
                     'token_type' => 'Bearer'
                 ],
                 'Registration successful',
@@ -89,7 +87,7 @@ class AuthController extends Controller
     public function me(Request $request)
     {
         try {
-            $user = $request->user();
+            $user = $this->authService->me($request);
 
             return $this->apiResponse(
                 new UserResource($user),
@@ -108,7 +106,7 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         try {
-            $request->user()->currentAccessToken()->delete();
+            $this->authService->logout($request);
 
             return $this->apiResponse(
                 null,
