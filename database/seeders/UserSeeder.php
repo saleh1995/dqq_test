@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Warehouse;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -13,6 +14,13 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+        // Get warehouses for assignment
+        $warehouses = Warehouse::all();
+
+        if ($warehouses->isEmpty()) {
+            $this->command->warn('No warehouses found. Users will not be assigned to warehouses.');
+        }
+
         // Create admin user
         User::updateOrCreate(
             ['email' => 'admin@example.com'],
@@ -20,6 +28,7 @@ class UserSeeder extends Seeder
                 'name' => 'Admin User',
                 'password' => Hash::make('password123'),
                 'email_verified_at' => now(),
+                'warehouse_id' => $warehouses->first()?->id,
             ]
         );
 
@@ -60,6 +69,12 @@ class UserSeeder extends Seeder
         foreach ($users as $userData) {
             $email = $userData['email'];
             unset($userData['email']);
+
+            // Assign users to different warehouses
+            if (!$warehouses->isEmpty()) {
+                $userData['warehouse_id'] = $warehouses->random()->id;
+            }
+
             User::updateOrCreate(['email' => $email], $userData);
         }
     }
