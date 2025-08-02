@@ -31,6 +31,9 @@ class StockTransferResource extends JsonResource
             'products' => StockTransferProductResource::collection($this->whenLoaded('products')),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'audits' => $this->whenLoaded('audits', function(){
+                return $this->audits;
+            })
         ];
     }
 }

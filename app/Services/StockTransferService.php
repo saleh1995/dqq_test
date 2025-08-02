@@ -104,7 +104,7 @@ class StockTransferService
         // Update the status
         $stockTransfer->update([
             'status' => $newStatus,
-            'notes' => $notes ? ($stockTransfer->notes ? $stockTransfer->notes . "\n" . $notes : $notes) : $stockTransfer->notes,
+            'notes' => $notes ?? $stockTransfer->notes,
         ]);
 
         return true;
@@ -120,7 +120,8 @@ class StockTransferService
             'warehouseFrom',
             'warehouseTo',
             'createdBy',
-            'products.product'
+            'products.product',
+            'audits'
         ]);
     }
 
