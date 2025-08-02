@@ -49,16 +49,6 @@ class CompanyController extends Controller
     {
         try {
             $validatedData = $request->validated();
-
-            // Check if company with same name already exists
-            if (Company::where('name', $validatedData['name'])->exists()) {
-                return $this->apiResponseError(
-                    null,
-                    'A company with this name already exists',
-                    422
-                );
-            }
-
             $company = $this->companyService->createCompany($validatedData);
 
             return $this->apiResponse(
@@ -67,8 +57,6 @@ class CompanyController extends Controller
                 201,
                 true
             );
-        } catch (ValidationException $e) {
-            return $this->apiResponseException($e);
         } catch (\Exception $e) {
             return $this->apiResponseException($e);
         }
@@ -107,14 +95,6 @@ class CompanyController extends Controller
     public function update(CompanyRequest $request, string $id)
     {
         try {
-            // Check if company exists
-            if (!$this->companyService->companyExists($id)) {
-                return $this->apiResponseError(
-                    null,
-                    'Company not found',
-                    404
-                );
-            }
 
             $validatedData = $request->validated();
 
@@ -135,8 +115,6 @@ class CompanyController extends Controller
                 200,
                 true
             );
-        } catch (ValidationException $e) {
-            return $this->apiResponseException($e);
         } catch (\Exception $e) {
             return $this->apiResponseException($e);
         }

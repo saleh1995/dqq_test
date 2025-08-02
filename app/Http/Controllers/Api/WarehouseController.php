@@ -50,15 +50,6 @@ class WarehouseController extends Controller
         try {
             $validatedData = $request->validated();
 
-            // Check if warehouse with same name already exists
-            if (Warehouse::where('name', $validatedData['name'])->exists()) {
-                return $this->apiResponseError(
-                    null,
-                    'A warehouse with this name already exists',
-                    422
-                );
-            }
-
             $warehouse = $this->warehouseService->createWarehouse($validatedData);
 
             return $this->apiResponse(
@@ -67,8 +58,6 @@ class WarehouseController extends Controller
                 201,
                 true
             );
-        } catch (ValidationException $e) {
-            return $this->apiResponseException($e);
         } catch (\Exception $e) {
             return $this->apiResponseException($e);
         }
@@ -118,15 +107,6 @@ class WarehouseController extends Controller
 
             $validatedData = $request->validated();
 
-            // Check if warehouse with same name already exists (excluding current warehouse)
-            if (Warehouse::where('name', $validatedData['name'])->where('id', '!=', $id)->exists()) {
-                return $this->apiResponseError(
-                    null,
-                    'A warehouse with this name already exists',
-                    422
-                );
-            }
-
             $warehouse = $this->warehouseService->updateWarehouse($id, $validatedData);
 
             return $this->apiResponse(
@@ -135,8 +115,6 @@ class WarehouseController extends Controller
                 200,
                 true
             );
-        } catch (ValidationException $e) {
-            return $this->apiResponseException($e);
         } catch (\Exception $e) {
             return $this->apiResponseException($e);
         }
