@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('shipments', function (Blueprint $table) {
             $table->id();
+            $table->string('order_number');
+            $table->string('shipment_reference')->nullable();
+            $table->string('status')->nullable();
+            $table->string('provider')->default('labayh');
+            $table->string('label_url')->nullable();
+            $table->json('raw_response')->nullable();
             $table->timestamps();
         });
     }
