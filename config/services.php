@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    'labayh' => [
+        'base_url' => 'https://dev.mylabaih.com/',
+        'token' => 'ea90b1a2c6cbace9cc92172356bd90149a5cb7e7',
+    ]
+
 ];
