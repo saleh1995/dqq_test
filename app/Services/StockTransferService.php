@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Enums\StockTransferStatusEnum;
+use App\Events\CreateShipmentEvent;
 use App\Models\StockTransfer;
 use App\Models\StockTransferProduct;
 use App\Models\User;
@@ -67,6 +68,8 @@ class StockTransferService
             'notes' => $data['notes'] ?? null,
             'created_by' => $user->id,
         ]);
+
+        CreateShipmentEvent::dispatch($stockTransfer);
 
         // Create stock transfer products
         foreach ($data['products'] as $productData) {
