@@ -10,7 +10,15 @@ class Warehouse extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'address'];
+    protected $fillable = [
+        'name',
+        'address',
+        'mobile',
+        'city',
+        'address',
+        'lat',
+        'lng'
+    ];
 
     /**
      * Get the users that belong to this warehouse.

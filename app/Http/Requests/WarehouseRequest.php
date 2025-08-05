@@ -21,6 +21,11 @@ class WarehouseRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
+            'mobile' => 'required|string|max:255',
+            'city' => 'required|string|max:255',
+            'address' => 'required|string|max:255',
+            'lat' => 'required|string|max:255',
+            'lng' => 'required|string|max:255'
         ];
     }
 
